@@ -1,8 +1,17 @@
 function volt=updatePyramid(p,i)
  declareGlobals
+ Thres=-57;
+ refPer=2;
 
  %current voltage
  v=pyramidal(p).v;
+
+ %volt stuck at 0 if last spike was 1ms ago
+ if(timeline(i) < pyramidal(p).spikeTime + 1)
+     pyramidal(p).v =0;
+     volt=0;
+     return
+ end
 
  %fprintf('time %i, time from last spike %i\n',timeline(i),t);
 
@@ -11,7 +20,7 @@ function volt=updatePyramid(p,i)
  denomSum=0;
 
 
- usedCurrents=[c.Leak c.ATM];
+ usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input];
 
  for j=usedCurrents
      f=currents(j).tau_fall;
@@ -20,17 +29,19 @@ function volt=updatePyramid(p,i)
      G=currents(j).G;
      E=currents(j).Erev;
 
-     if(j == c.ATM)
-        t = timeline(i) - thetaSpikes(i);
-     else
-	 %time after spike;
-	t = timeline(i) - pyramidal(p).spikeTime;
+     %Should time differ between currentsc?
+     switch(j)
+	 case c.ATM
+	    t = timeline(i) - thetaSpikes(i);
+	 case c.Input
+	    t = timeline(i) - inputSpikes(i);
+	 otherwise
+	    t = timeline(i) - pyramidal(p).spikeTime;
      end
 
-     %conducatnace
+     %calculate conducatnace
      if (j == c.Leak)
-	 g=G.*exp(-f);
-	 %THIS IS WRONG
+	 g = G;
      else
 	 g = G .*  a .* ( exp(-t ./ f) - exp(-t ./ r) );
      end
@@ -42,11 +53,25 @@ function volt=updatePyramid(p,i)
 
  dv = numerSum .* dt ./ (C + dt .* denomSum);
 
-  %pyramidal(p).dv = dv;
+ %v=0 if just was a spike, othereise, add conductances
  pyramidal(p).v = v + dv;
 
  %update what will be plotted
  volt = pyramidal(p).v;
+
+ %%FIRE
+ % If threshold and
+ %as long as more then enough time has passed
+ if (...
+  volt > Thres && ...
+  timeline(i) > pyramidal(p).spikeTime + refPer ...
+  )
+
+     pyramidal(p).spikeTimes=[pyramidal(p).spikeTimes timeline(i)];
+     pyramidal(p).spikeTime=timeline(i);
+    
+ end
+
 
 end
 
