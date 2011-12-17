@@ -7,8 +7,9 @@ function volt=updatePyramid(p,i)
  v=pyramidal(p).v;
 
  %volt stuck at 0 if last spike was 1ms ago
- if(timeline(i) < pyramidal(p).spikeTime + 1)
-     pyramidal(p).v =0;
+ if(timeline(i) < pyramidal(p).spikeTime + 2)
+     fprintf('spiked one ago! %i \n',i);
+     pyramidal(p).v = 0;
      volt=0;
      return
  end
@@ -34,7 +35,7 @@ function volt=updatePyramid(p,i)
 	 case c.ATM
 	    t = timeline(i) - thetaSpikes(i);
 	 case c.Input
-	    t = timeline(i) - inputSpikes(i);
+	    t = timeline(i) - inputSpikes(p,i);
 	 otherwise
 	    t = timeline(i) - pyramidal(p).spikeTime;
      end
@@ -67,8 +68,12 @@ function volt=updatePyramid(p,i)
   timeline(i) > pyramidal(p).spikeTime + refPer ...
   )
 
+     fprintf('spike now! %i %i \n',t,i);
      pyramidal(p).spikeTimes=[pyramidal(p).spikeTimes timeline(i)];
      pyramidal(p).spikeTime=timeline(i);
+     pyramidal(p).v=0;
+     volt = pyramidal(p).v;
+
     
  end
 

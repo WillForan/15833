@@ -14,8 +14,8 @@ dt = 1;    %msec change
 timeline = 0:dt:L;
 Vhist    = zeros(P,length(timeline));
 
-thetaSpikes = zeros(1,length(timeline));
-inputSpikes = zeros(P,length(timeline));
+thetaSpikes = ones(1,length(timeline)).*-Inf;
+inputSpikes = ones(P,length(timeline)).*-Inf;
 
 %% set up pyramidal cell values
 for p=1:P;
@@ -54,6 +54,7 @@ end
 %%%%%% Input spikes
 
 setInput(1,100);
+setInput(2,250);
 
 %%%%%
 
@@ -68,6 +69,7 @@ end
 %make plot
 fig=figure;
 plot(timeline,Vhist);
-hgexport(fig,'../img/3-2');
+ylim([-90 0]);
+hgexport(fig,'../img/4-2');
 
 min(min(Vhist))
