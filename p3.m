@@ -17,7 +17,7 @@ Vhist    = zeros(P,length(timeline));
 
 %% set up pyramidal cell values
 for p=1:P;
-  pyramidal(p).v         = 100;
+  pyramidal(p).v         = -60;
   pyramidal(p).spikeTime = 0;
   pyramidal(p).s         = 0;
   pyramidal(p).g         = 0;
