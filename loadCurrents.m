@@ -19,7 +19,7 @@ c.ATM = 3;
 currents(c.ATM).tau_rise = .1;
 currents(c.ATM).tau_fall = 8;
 currents(c.ATM).G = 10;
-currents(c.ATM).Erev = -70;
+currents(c.ATM).Erev = -90;
 currents(c.ATM).anorm = find_anorm(currents(c.ATM));
 
 c.GIN = 4;

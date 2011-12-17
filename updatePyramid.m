@@ -30,6 +30,7 @@ function volt=updatePyramid(p,i)
      %conducatnace
      if (j == c.Leak)
 	 g =  1/f;
+	 g=10;
 	 %g = G .*  a .* exp(-t ./ f);
 	 %THIS IS WRONG
      else
