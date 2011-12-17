@@ -29,13 +29,22 @@ currents(c.GIN).G = 150;
 currents(c.GIN).Erev = -70;
 currents(c.GIN).anorm = find_anorm(currents(c.GIN));
 
-%leak is funny, g=c/f = 1/9
+%
 c.Leak = 5;
 currents(c.Leak).tau_rise = 9;
 currents(c.Leak).tau_fall = 9;
 currents(c.Leak).G = 111;
 currents(c.Leak).Erev = -60;
 currents(c.Leak).anorm = 0;% find_anorm(currents(c.Leak));
+
+%Page 3 of Reverse and Forward
+%http://www.cs.cmu.edu/afs/cs/academic/class/15883-f11/readings/koene-2008-nn.pdf
+c.Input= 6;
+currents(c.Input).tau_rise = 1; 
+currents(c.Input).tau_fall = 2; %or or 4
+currents(c.Input).G = 30; %32? or .6 or .15
+currents(c.Input).Erev = 0;
+currents(c.Input).anorm = find_anorm(currents(c.Input));
 
 
 %%%%%%%%%
