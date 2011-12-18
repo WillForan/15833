@@ -10,7 +10,7 @@ function volt=updatePyramid(p,i)
  v=pyramidal(p).v;
 
  %volt stuck at 0 if last spike was 1ms ago
- if(timeline(i) <= pyramidal(p).spikeTime + 1)
+ if(timeline(i) == pyramidal(p).spikeTime + 1)
      %fprintf('spiked one ago! %i \n',i);
      pyramidal(p).v = 0;
      volt=0;
@@ -24,9 +24,13 @@ function volt=updatePyramid(p,i)
  denomSum=0;
 
 
- usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
+ usedCurrents=[c.Leak];
+ usedCurrents=[c.Leak c.ATM ];
+ usedCurrents=[c.Leak c.ATM c.AHP c.Input];
+ %usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
 
  for j=usedCurrents
+     %waste time making one letter shortcuts
      f=currents(j).tau_fall;
      r=currents(j).tau_rise;
      a=currents(j).anorm;
@@ -55,33 +59,41 @@ function volt=updatePyramid(p,i)
 
      numerSum = numerSum + g .* (E-v);
      denomSum = denomSum + g;
+     %Move dt inside summation like written in paper
+     %numerSum = numerSum + g .* dt .* (E-v);
+     %denomSum = denomSum + dt .* g;
  end
 
  dv = numerSum .* dt ./ (C + dt .* denomSum);
-
- %v=0 if just was a spike, othereise, add conductances
- pyramidal(p).v = v + dv;
+ dt moved into summation
+ %dv = numerSum  ./ (C + denomSum);
 
  %update what will be plotted
- volt = pyramidal(p).v;
+ volt = pyramidal(p).v + dv;
 
  %%FIRE
  % If threshold and
  %as long as more then enough time has passed
  if (...
   volt > Thres && ...
-  timeline(i) > pyramidal(p).spikeTime + refPer ...
+  timeline(i) > pyramidal(p).spikeTime + refPer ... 
   )
+     fprintf('spike now! %i %.2f\n',i,volt);
 
-     %fprintf('spike now! %i %i \n',t,i);
+     %set volt to 0
+     volt = 0;
+
+     %update spike time collectors
      pyramidal(p).spikeTimes=[pyramidal(p).spikeTimes timeline(i)];
      pyramidal(p).spikeTime=timeline(i);
-
-     pyramidal(p).v=0; %spike hieght
-     volt = pyramidal(p).v;
-
-    
  end
+
+ %update cell voltage
+ pyramidal(p).v = volt;
+
+ %%% could update Vhist here
+ %%% but clearer to do so in the main for loop
+
 
 
 end
