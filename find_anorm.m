@@ -5,7 +5,7 @@ function anorm = find_anorm(cur)
     %using discrite
     %%%
     t       = [0:.001:cur.tau_fall];
-    expdiff = exp(-t ./ cur.tau_fall);
+    expdiff = exp(-t ./ cur.tau_fall) - exp(-t ./ cur.tau_rise);
     anorm   = 1/max(expdiff);
 
     %if(cur.tau_fall ~=cur.tau_rise)

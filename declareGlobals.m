@@ -6,6 +6,7 @@ global timeline;
 
 global currents;
 global pyramidal; global pyramids;
+global gammaNeuron;
 
 global thetaSpikes;
 global inputSpikes;

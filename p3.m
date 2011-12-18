@@ -6,13 +6,14 @@ C=1; %membrane capacitance is constant
 loadCurrents;
 
 %store current V, last spike time, state, total g, delt_V
-P  = 2;    %number pyrimdal cells
-L  = 500;  %Length of experiment (ms)
+P  = 4;    %number pyrimdal cells
+L  = 1510;  %Length of experiment (ms)
 dt = 1;    %msec change
-%S  = L/dt+1; %number samples in simulation
+%S  = (L+1)/dt; %number samples in simulation always starting at 0
 
 timeline = 0:dt:L;
 Vhist    = zeros(P,length(timeline));
+Ghist    = zeros(1,length(timeline));
 
 thetaSpikes = ones(1,length(timeline)).*-Inf;
 inputSpikes = ones(P,length(timeline)).*-Inf;
@@ -31,6 +32,8 @@ end
 %%%%%%%% Theta spike time position %%%%%%
 %8HZ => 1000/8 => 125
 %500/125 = 4  
+%
+%% dt=1 is abused here I thinks
 period=1000/8;
 numThetaSpikes=ceil(L/period)-1;
 for i=0:numThetaSpikes;
@@ -54,22 +57,38 @@ end
 %%%%%% Input spikes
 
 setInput(1,100);
-setInput(2,250);
+setInput(2,225);
+setInput(3,355);
+setInput(4,605);
 
 %%%%%
+
+%%%% GAMMA inter neuron %%%%
+gammaNeuron.v          = -60;
+gammaNeuron.spikeTime  = -Inf;
+gammaNeuron.spikeTimes = [];
+
+
+%%%%%%%%%%%%%%%%
 
 %%% MAIN  %%%%%%%%%%
 for i=1:length(timeline);
     for p=1:P;
       Vhist(p,i) = updatePyramid(p,i);
     end
+  %should this be done before or after pyramid?
+  Ghist(i) = updateGamma(i);
 end
 %%%%%%%%%%%%%%%%%%%%
 
-%make plot
-fig=figure;
-plot(timeline,Vhist);
-ylim([-90 0]);
-hgexport(fig,'../img/4-2');
 
-min(min(Vhist))
+%%%%%%%make plot%%%%%%%%%
+%fig=figure;
+plot(timeline,[Vhist;Ghist./10+-80]);
+%ylim([-90 0]);
+%hgexport(fig,'../img/4-2');
+%%%%%%%%%%%%%%%%%%%%
+
+%min and max for fun
+[min(min(Vhist)) max(max(Vhist))]
+

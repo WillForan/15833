@@ -47,4 +47,25 @@ currents(c.Input).Erev = 0;
 currents(c.Input).anorm = find_anorm(currents(c.Input));
 
 
-%%%%%%%%%
+%%%%%%%%% GAMMA
+c.GammaAHP = 7;
+currents(c.GammaAHP).tau_rise = 1e-4; 
+currents(c.GammaAHP).tau_fall = 4;
+currents(c.GammaAHP).G = 100; 
+currents(c.GammaAHP).Erev = -90;
+currents(c.GammaAHP).anorm = find_anorm(currents(c.Input));
+
+c.GammaLeak = 8;
+currents(c.GammaLeak).tau_rise = NaN; 
+currents(c.GammaLeak).tau_fall = NaN;
+currents(c.GammaLeak).G = 100; 
+currents(c.GammaLeak).Erev = -70;
+currents(c.GammaLeak).anorm = NaN;
+
+c.GammaIn = 9;
+currents(c.GammaIn).tau_rise = 1; 
+currents(c.GammaIn).tau_fall = 2;
+currents(c.GammaIn).G = 30; 
+currents(c.GammaIn).Erev = 0;
+currents(c.GammaIn).anorm = find_anorm(currents(c.Input));
+

@@ -1,4 +1,4 @@
-function volt=updatePyramid(p,i)
+function volt=updateGamma(i)
  declareGlobals
 
  %spike threashold
@@ -7,24 +7,22 @@ function volt=updatePyramid(p,i)
  refPer=2;
 
  %current voltage
- v=pyramidal(p).v;
+ v=gammaNeuron.v;
 
  %volt stuck at 0 if last spike was 1ms ago
- if(timeline(i) <= pyramidal(p).spikeTime + 1)
+ if(timeline(i) <= gammaNeuron.spikeTime + 1)
      %fprintf('spiked one ago! %i \n',i);
-     pyramidal(p).v = 0;
+     gammaNeuron.v = 0;
      volt=0;
      return
  end
 
- %fprintf('time %i, time from last spike %i\n',timeline(i),t);
 
  %numerator and demonimator sumations
- numerSum=0;
- denomSum=0;
+ numerSum=0; denomSum=0;
 
 
- usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
+ usedCurrents=[c.GammaLeak c.GammaAHP c.GammaIn];
 
  for j=usedCurrents
      f=currents(j).tau_fall;
@@ -35,20 +33,14 @@ function volt=updatePyramid(p,i)
 
      %Should time differ between currentsc?
      switch(j)
-	 case c.ATM   %Theta
-	    t = timeline(i) - thetaSpikes(i);
-	 case c.GIN %Gamma
-	    t = timeline(i) - gammaNeuron.spikeTime;
-	 case c.Input %Input
-	    t = timeline(i) - inputSpikes(p,i);
+	 case c.GammaIn %Input
+	    t = timeline(i) - max([pyramidal.spikeTime]);
 	 otherwise    %current of the cell
-	    t = timeline(i) - pyramidal(p).spikeTime;
+	    t = timeline(i) - gammaNeuron.spikeTime;
      end
 
      %calculate conducatnace
-     if (j == c.Leak)
-	 g = G;
-     else
+     if (j == c.GammaLeak) g = G; else
 	 g = G .*  a .* ( exp(-t ./ f) - exp(-t ./ r) );
      end
 
@@ -60,25 +52,25 @@ function volt=updatePyramid(p,i)
  dv = numerSum .* dt ./ (C + dt .* denomSum);
 
  %v=0 if just was a spike, othereise, add conductances
- pyramidal(p).v = v + dv;
+ gammaNeuron.v = v + dv;
 
  %update what will be plotted
- volt = pyramidal(p).v;
+ volt = gammaNeuron.v;
 
  %%FIRE
  % If threshold and
  %as long as more then enough time has passed
  if (...
   volt > Thres && ...
-  timeline(i) > pyramidal(p).spikeTime + refPer ...
+  timeline(i) > gammaNeuron.spikeTime + refPer ...
   )
 
      %fprintf('spike now! %i %i \n',t,i);
-     pyramidal(p).spikeTimes=[pyramidal(p).spikeTimes timeline(i)];
-     pyramidal(p).spikeTime=timeline(i);
+     gammaNeuron.spikeTimes=[gammaNeuron.spikeTimes timeline(i)];
+     gammaNeuron.spikeTime=timeline(i);
 
-     pyramidal(p).v=0; %spike hieght
-     volt = pyramidal(p).v;
+     gammaNeuron.v=0; %spike hieght
+     volt = gammaNeuron.v;
 
     
  end
