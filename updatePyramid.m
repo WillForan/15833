@@ -24,10 +24,10 @@ function volt=updatePyramid(p,i)
  denomSum=0;
 
 
- %usedCurrents=[c.Leak]; %3-1 %also initialize lpryramid.v=100 
- usedCurrents=[c.Leak c.ATM]; %3-1 %also initialize lpryramid.v=100 
- usedCurrents=[c.Leak c.ATM ];
- usedCurrents=[c.Leak c.ATM c.AHP c.Input];
+ %usedCurrents=[c.Leak]; %3-1 %also initialize lpryramid.v=100 %set ylim to see as demonstrated
+ usedCurrents=[c.Leak c.ATM]; %3-2 %also initialize lpryramid.v=100 
+ usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input]; %step 4 %setInput(1,100); setInput(2,225);
+ %usedCurrents=[c.Leak c.ATM c.AHP c.Input];
  %usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
 
  for j=usedCurrents
@@ -48,6 +48,9 @@ function volt=updatePyramid(p,i)
 	    t = timeline(i) - inputSpikes(p,i);
 	 otherwise    %current of the cell
 	    t = timeline(i) - pyramidal(p).spikeTime;
+     end
+     if(t<0)
+         fprintf('ERR in time: %i %i %i\n',j,t,i);
      end
 
      %calculate conducatnace
@@ -77,7 +80,7 @@ function volt=updatePyramid(p,i)
  %as long as more then enough time has passed
  if (...
   volt > Thres && ...
-  timeline(i) > pyramidal(p).spikeTime + refPer ... 
+  timeline(i) > pyramidal(p).spikeTime + refPer+1 ... 
   )
      fprintf('spike now! %i %.2f\n',i,volt);
 

@@ -8,7 +8,7 @@ function setInput(p,ts)
   %don't overwrite any values ---
   % larger times set up before smaller times
   idx=find(inputSpikes(p,t:end)<t);
-  idx=idx+t-1;
+  idx=idx+t;
 
   inputSpikes(p,idx)=ones(1,length(idx)).*t;
 end
