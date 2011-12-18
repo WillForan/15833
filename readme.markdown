@@ -4,6 +4,7 @@
 
 > Short-term persistent spiking buffer model of entorhinal cortex described by Randal A. Koene and Michael E. Hasselmo
 
+[Writeup](https://github.com/WillForan/15833/raw/master/writeups/writeup.pdf)
 ## OUTPUT 
 
 > octave runSim.m
@@ -30,6 +31,7 @@
     Phase	107    92    79    71    69    69    69    69
 
 <a href="https://github.com/WillForan/15833/raw/master/writeups/img/5.png"><img src="https://github.com/WillForan/15833/raw/master/writeups/img/5.png" width="50%" height="50%"></a>
+<a href="https://github.com/WillForan/15833/raw/master/writeups/img/5-subplots.png"><img src="https://github.com/WillForan/15833/raw/master/writeups/img/5-subplots.png" width="50%" height="50%"></a>
 
 ## Code
 
