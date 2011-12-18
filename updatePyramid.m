@@ -24,7 +24,8 @@ function volt=updatePyramid(p,i)
  denomSum=0;
 
 
- usedCurrents=[c.Leak];
+ %usedCurrents=[c.Leak]; %3-1 %also initialize lpryramid.v=100 
+ usedCurrents=[c.Leak c.ATM]; %3-1 %also initialize lpryramid.v=100 
  usedCurrents=[c.Leak c.ATM ];
  usedCurrents=[c.Leak c.ATM c.AHP c.Input];
  %usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
@@ -62,11 +63,11 @@ function volt=updatePyramid(p,i)
      %Move dt inside summation like written in paper
      %numerSum = numerSum + g .* dt .* (E-v);
      %denomSum = denomSum + dt .* g;
+     %and then dv is
+     % dv = numerSum  ./ (C + denomSum);
  end
 
  dv = numerSum .* dt ./ (C + dt .* denomSum);
- dt moved into summation
- %dv = numerSum  ./ (C + denomSum);
 
  %update what will be plotted
  volt = pyramidal(p).v + dv;
