@@ -87,6 +87,10 @@ for i=1:S;
 end
 %%%%%%%%%%%%%%%%%%%%
 
+%%%%% STATS  %%%%%%%
+spikestats;
+%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%make plot%%%%%%%%%
 %fig=figure;
@@ -96,8 +100,7 @@ end
 
 %%Vhist plot gets two vertical panels, gamma gets one
 %%both go all the way across
-%pyramidal
-%shift down
+%pyramidal shift down
 for p=1:P
     Vhist(p,:)=Vhist(p,:)-4*p;
 end
@@ -109,8 +112,20 @@ xlim([0 1510]);
 subplot(3,1,3);
 plot(timeline,Ghist,'k');
 xlim([0 1510]);
-
 print('-dpng','5.png'); %ocatve print
+
+%%%%%ALL in subplots
+%for p=1:P
+%    subplot(P+1,1,p);
+%    plot(timeline,Vhist(p,:));
+%    xlim([0 1510]);
+%end
+%%%gamma
+%subplot(P+1,1,P+1);
+%plot(timeline,Ghist,'k');
+%xlim([0 1510]);
+%
+%print('-dpng','5-subplots.png'); %ocatve print
 %%hgexport(fig,'../img/4-2'); %matlab
 %%%%%%%%%%%%%%%%%%%%%
 
