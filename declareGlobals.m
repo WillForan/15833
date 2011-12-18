@@ -1,5 +1,6 @@
 global c; %index of currents
 global C; %constant, set to 1
+global P; %num P in simulation
 global dt;%time step 
 
 global timeline;
