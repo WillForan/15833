@@ -1,0 +1,38 @@
+
+%
+\def \PSName {Project}
+\def \name {Will Foran $\cdot$ wforan1 }
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[top=1in,left=.2in,bottom=.1in]{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx} 
+\usepackage{epstopdf}
+\usepackage{multicol} 
+\pagestyle{myheadings}
+\markright{\name}
+%\thispagestyle{empty}
+\begin{document}
+
+\section{}%1
+\input{1}
+\section{}%2
+\input{2}
+\section{}%3
+\includegraphics[keepaspectratio,width=.5\textwidth]{img/3-1.eps} \\
+\begin{multicols}{2}
+\section{}%4
+\includegraphics[keepaspectratio,width=.45\textwidth]{img/4.png} \\
+\columnbreak
+\section{}%5
+\includegraphics[keepaspectratio,width=.45\textwidth]{img/5.png} \\
+\end{multicols}
+\section{}%6
+\input{6}
+
+\end{document}
+
+

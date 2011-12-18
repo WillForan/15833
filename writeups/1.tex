@@ -1,0 +1,16 @@
+%Diff[G*a*(exp(-t/f)-exp(-t/r)),t]
+%                                  = G*a*(exp(-t/r)/r - exp(-t/f)/f)
+%
+%Solve[ Diff[G*a*(exp(-t/f)-exp(-t/r)),t]=0 , t ]
+%
+% t= f*r*(ln(f/r)+2*i*pi*n)/(f-r)
+%
+\begin{align*}
+0&=\frac{d}{dt} Ga_{norm} (e^{\frac{-t}{\tau_{fall}}} - e^{\frac{-t}{\tau_{rise}}})\\
+t_{max} &= \frac{ \tau_{fall}\tau_{rise}\ln(\frac{\tau_{fall}}{\tau_{rise}})  }{ \tau_{rise} - \tau_{fall}  } \\
+        &= \frac{ \ln(\frac{\tau_{fall}}{\tau_{rise}})  }{ \tau_{fall}^{-1} - \tau_{rise}^{-1}  } 
+\end{align*}
+
+The incorrect equation appears to be a typo in that the natural log is taken of the whole fraction rather than of just the numerator.
+%
+%other wrong due to typesetting?
