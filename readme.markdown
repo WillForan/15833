@@ -29,7 +29,7 @@
     ISI	   	110   112   117   123   125   125   125
     Phase	107    92    79    71    69    69    69    69
 
-<img src="https://github.com/WillForan/15833/raw/master/writeups/img/5.png" width="50%" height="50%">
+<a href="https://github.com/WillForan/15833/raw/master/writeups/img/5.png"><img src="https://github.com/WillForan/15833/raw/master/writeups/img/5.png" width="50%" height="50%"></a>
 
 ## Code
 
@@ -63,7 +63,7 @@
     1.  add to numerator num=num+g.\*(E-v) and denominator denom=denom+num+g portions of deltaV sum 
 1. calculate detaV using collected sums=> num*dt /(1+dt *denom)
 1. if voltage is above thres AND timeline(i) > spiketime+2ms
-1. 1. voltage = 0
+    1. voltage = 0
 1. update volt of pyrmidal(p)
 1. update Vhist(p,i) = voltage 
 
