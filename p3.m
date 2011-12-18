@@ -9,14 +9,14 @@ loadCurrents;
 P  = 4;    %number pyrimdal cells
 L  = 1510;  %Length of experiment (ms)
 dt = 1;    %msec change
-%S  = (L+1)/dt; %number samples in simulation always starting at 0
+S  = (L+1)/dt; %number samples in simulation always starting at 0
 
 timeline = 0:dt:L;
-Vhist    = zeros(P,length(timeline));
-Ghist    = zeros(1,length(timeline));
+Vhist    = zeros(P,S);
+Ghist    = zeros(1,S);
 
-thetaSpikes = ones(1,length(timeline)).*-Inf;
-inputSpikes = ones(P,length(timeline)).*-Inf;
+thetaSpikes = ones(1,S).*-Inf;
+inputSpikes = ones(P,S).*-Inf;
 
 %% set up pyramidal cell values
 for p=1:P;
@@ -56,8 +56,14 @@ end
 
 %%%%%% Input spikes
 
+%Part 4
 setInput(1,100);
 setInput(2,225);
+
+%Part 5-1
+%setInput(2,475); %comment out previous
+
+%Part 5-2
 setInput(3,355);
 setInput(4,605);
 
@@ -72,11 +78,11 @@ gammaNeuron.spikeTimes = [];
 %%%%%%%%%%%%%%%%
 
 %%% MAIN  %%%%%%%%%%
-for i=1:length(timeline);
-    for p=1:P;
-      Vhist(p,i) = updatePyramid(p,i);
-    end
-  %should this be done before or after pyramid?
+for i=1:S;
+  for p=1:P;
+    Vhist(p,i) = updatePyramid(p,i);
+  end
+  %This update must go after (pyr cell fires, supress all others)
   Ghist(i) = updateGamma(i);
 end
 %%%%%%%%%%%%%%%%%%%%
@@ -84,11 +90,30 @@ end
 
 %%%%%%%make plot%%%%%%%%%
 %fig=figure;
-plot(timeline,[Vhist;Ghist./10+-80]);
+%plot(timeline,[Vhist;Ghist./10+-80]);
 %ylim([-90 0]);
 %hgexport(fig,'../img/4-2');
-%%%%%%%%%%%%%%%%%%%%
+
+%%Vhist plot gets two vertical panels, gamma gets one
+%%both go all the way across
+%pyramidal
+%shift down
+for p=1:P
+    Vhist(p,:)=Vhist(p,:)-4*p;
+end
+subplot(3,1,[1 2]);
+plot(timeline,Vhist);
+xlim([0 1510]);
+
+%gamma
+subplot(3,1,3);
+plot(timeline,Ghist,'k');
+xlim([0 1510]);
+
+print('-dpng','5.png'); %ocatve print
+%%hgexport(fig,'../img/4-2'); %matlab
+%%%%%%%%%%%%%%%%%%%%%
 
 %min and max for fun
-[min(min(Vhist)) max(max(Vhist))]
+%[min(min(Vhist)) max(max(Vhist))]
 

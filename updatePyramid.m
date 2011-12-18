@@ -24,11 +24,10 @@ function volt=updatePyramid(p,i)
  denomSum=0;
 
 
- %usedCurrents=[c.Leak]; %3-1 %also initialize lpryramid.v=100 %set ylim to see as demonstrated
- usedCurrents=[c.Leak c.ATM]; %3-2 %also initialize lpryramid.v=100 
- usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input]; %step 4 %setInput(1,100); setInput(2,225);
- %usedCurrents=[c.Leak c.ATM c.AHP c.Input];
- %usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN];
+ %usedCurrents=[c.Leak];				%3-1 %also initialize pryramid.v=100 %set ylim to see as demonstrated
+ %usedCurrents=[c.Leak c.ATM];			  	%3-2 %also initialize pryramid.v=100 
+ %usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input];	%step 4 %setInput(1,100); setInput(2,225);
+ usedCurrents=[c.Leak c.ATM c.AHP c.ADP c.Input c.GIN]; %step 5 %setInput(2,575)
 
  for j=usedCurrents
      %waste time making one letter shortcuts
@@ -82,7 +81,7 @@ function volt=updatePyramid(p,i)
   volt > Thres && ...
   timeline(i) > pyramidal(p).spikeTime + refPer+1 ... 
   )
-     fprintf('spike now! %i %.2f\n',i,volt);
+     %fprintf('spike now! %i %.2f\n',i,volt);
 
      %set volt to 0
      volt = 0;

@@ -39,6 +39,10 @@ function volt=updateGamma(i)
 	    t = timeline(i) - gammaNeuron.spikeTime;
      end
 
+     if(t<0)
+         fprintf('ERR in time: %i %i %i\n',j,t,i);
+     end
+
      %calculate conducatnace
      if (j == c.GammaLeak) g = G; else
 	 g = G .*  a .* ( exp(-t ./ f) - exp(-t ./ r) );
